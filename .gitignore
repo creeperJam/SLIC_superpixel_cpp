@@ -1,0 +1,9 @@
+# Cartelle di CLion
+.idea/
+cmake-build-debug/
+cmake-build-release/
+
+# Cartella delle immagini usate per testare
+images/
+/output
+main-linux.cpp
