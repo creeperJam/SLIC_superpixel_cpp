@@ -29,7 +29,6 @@ std::vector<std::pair<int, int>> floodFillBFS(const Mat& labels, std::vector<boo
 double run_parallel(const std::string& img_path, const int& k);
 double run_sequential(const std::string& img_path, const int& k);
 
-
 inline float manhattanDist(const pixel& p1, const pixel& p2) {
     return std::abs(p1.l - p2.l) + std::abs(p1.a - p2.a) + std::abs(p1.b - p2.b) + std::abs(p1.x - p2.x) + std::abs(p1.y - p2.y);
 }
