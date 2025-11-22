@@ -6,4 +6,7 @@ cmake-build-release/
 # Cartella delle immagini usate per testare
 images/
 /output
+
+# Altri file
 main-linux.cpp
+github-markdown.css

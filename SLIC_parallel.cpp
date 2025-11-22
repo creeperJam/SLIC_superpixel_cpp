@@ -15,13 +15,12 @@ double run_parallel(const std::string& img_path, const int& k) {
             return -1;
         }
 
-        clock_t start = clock();
-
         Mat img_lab;
         GaussianBlur(img, img_lab, Size(5,5) ,0);
-        // img.convertTo(img_lab, CV_32F, 1.0/255.0); // convertita a BGR 32-bit float
         img_lab.convertTo(img_lab, CV_32F, 1.0/255.0); // convertita a BGR 32-bit float
         cvtColor(img_lab, img_lab, COLOR_BGR2Lab ); // Convertita al colorspace CIE Lab
+
+        clock_t start = clock();
 
         height = img_lab.rows;
         width = img_lab.cols;
@@ -69,10 +68,6 @@ double run_parallel(const std::string& img_path, const int& k) {
         }
 
         std::filesystem::path output_path = std::filesystem::path(PROJECT_SOURCE_DIR) / "output" / "parallelo" ;
-        if (!std::filesystem::exists(output_path)) {
-            std::filesystem::create_directory(output_path);
-        }
-
         output_path.append("result_par_" + std::to_string(it_totali % 11) + ".png");
         // std::cout << output_path.string() << "\n";
         imwrite(output_path.string(), img);

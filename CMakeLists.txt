@@ -15,7 +15,6 @@ add_executable( SLIC_superpixel_seq common.cpp run-configurations.cpp SLIC_seque
         SLIC_sequential.h
         common.h
 )
-#add_executable( SLIC_superpixel_seq SLIC_sequential.cpp )
 #add_executable( SLIC_superpixel_seq main-v1.cpp )
 
 target_link_libraries( SLIC_superpixel_seq ${OpenCV_LIBS} )
