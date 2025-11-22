@@ -17,7 +17,7 @@ The algorithm is the following:
       &\color{white}\rule{25cm}{0.4pt} \\ 
     \end{aligned}
     \begin{aligned}
-      &1: &&\text{Initialize cluster centers } C_k\[l_k, a_k, b_k, x_k, y_k\]^T` \text{ by sampling pixels at regular grid steps S.} \\
+      &1: &&\text{Initialize cluster centers } C_k[l_k, a_k, b_k, x_k, y_k]^T` \text{ by sampling pixels at regular grid steps S.} \\
       &2: &&\text{Perturb cluster centers in an } n \times n \text{ neighborhood, to the lowest gradient position. }\\
       &3: &&\textbf{repeat} \\
       &4: && \quad \textbf{for } \text{each cluster center } C_k \textbf{ do} \\
@@ -27,7 +27,7 @@ The algorithm is the following:
       &8: &&\textbf{until } E ≤ \text{ threshold} \\
       &9: &&\text{Enforce connectivity} \\
     \end{aligned}
-      \color{white}\rule{25cm}{0.4pt} \\
+      \color{white}\rule{25cm}{0.4pt}
   ```
 
 In both the parallel and sequential versions there are functions for every step. The only inputs that the  algorithm takes are:
@@ -145,7 +145,6 @@ Here are the before and after picture applying the algorithm:
   <img src="/examples/results/before_2.jpg" alt="Before blur" width="200">
   <img src="/examples/results/after_2.png" alt="After blur" width="200"> 
 </div>
- \
 
 <div align="center">
   <img src="/examples/results/before_3.png" alt="Before blur" width="200">
