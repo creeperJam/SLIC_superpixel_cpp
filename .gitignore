@@ -1,12 +1,12 @@
 # Cartelle di CLion
 .idea/
-cmake-build-debug/
-cmake-build-release/
+cmake-build-debug-mingw/
+cmake-build-release-mingw/
 
 # Cartella delle immagini usate per testare
-images/
-/output
+bat-scripts/
+images/train2017/
+output/
 
 # Altri file
-main-linux.cpp
 github-markdown.css
