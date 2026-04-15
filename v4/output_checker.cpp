@@ -1,6 +1,8 @@
 #include "common.h"
 
-double compare_labels(const image_SoA& image_seq, const image_SoA& image_par);
+// NOTE: When using this function, make sure the last part in each implementation is NOT commented, otherwise the result will be wrong
+//  or give error
+double compare_results(const Mat& image_seq, const Mat& image_par);
 
 int main() {
     omp_set_num_threads(omp_get_num_procs());
@@ -29,31 +31,39 @@ int main() {
         Mat img_to_save;
 
         img_SoA = {base_img_SoA};
-        image_SoA output_seq = run_sequential(img_SoA, sp_count);
+        Mat output_seq = run_sequential(img_SoA, sp_count);
 
         img_SoA = {base_img_SoA};
-        image_SoA output_par = run_parallel(img_SoA, sp_count);
-        std::cout << "Parallel accuracy: " << compare_labels(output_seq, output_par) << "%\n";
+        Mat output_par = run_parallel(img_SoA, sp_count);
+        std::cout << "Parallel accuracy: " << compare_results(output_seq, output_par) << "%\n";
 
-        image_SoA output_tile;
+        Mat output_tile;
         for (int tile_size : TILE_SIZES) {
             img_SoA = {base_img_SoA};
             output_tile = run_tile(img_SoA, sp_count, tile_size);
 
-            std::cout << "Tile size "<< tile_size << " accuracy: " << compare_labels(output_seq, output_tile)<< "%\n";
+            std::cout << "Tile size "<< tile_size << " accuracy: " << compare_results(output_seq, output_tile)<< "%\n";
         }
     }
 }
 
-double compare_labels(const image_SoA& image_seq, const image_SoA& image_par) {
-    int count_diff = 0;
-    double image_size = image_seq.L.size();
+double compare_results(const Mat& image_seq, const Mat& image_par) {
+    int count_diff = 0, i = 0, j = 0;
+    double image_size = image_seq.rows * image_seq.cols;
 
-    for (int i = 0; i < image_size; ++i) {
-        if (image_seq.L[i] != image_par.L[i] ||
-            image_seq.a[i] != image_par.a[i] ||
-            image_seq.b[i] != image_par.b[i]) {
-            count_diff++;
+    Vec3b color_seq;
+    Vec3b color_par;
+    for (i = 0; i < image_seq.rows; ++i) {
+        auto row_seq = image_seq.row(i);
+        auto row_par = image_par.row(i);
+        for (j = 0; j < image_seq.cols; ++j) {
+            color_seq = row_seq.at<Vec3b>(j);
+            color_par = row_par.at<Vec3b>(j);
+            if (std::abs(color_seq[0] - color_par[0]) > 1 || // Tolerance to avoid flagging as error micro differences
+                std::abs(color_seq[1] - color_par[1]) > 1 ||
+                std::abs(color_seq[2] - color_par[2]) > 1) {
+                count_diff++;
+                }
         }
     }
 

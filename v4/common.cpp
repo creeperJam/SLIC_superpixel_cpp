@@ -71,16 +71,16 @@ void applySegmentationColored(Mat& img, const Mat& labels, const pixels_SoA& cen
     }
 
     // Colors the border between each cluster
-    const Vec3b color = Vec3b(0, 255, 0);
-    for (int i = 0; i < height - 1; i++) {
-        for (int j = 0; j < width - 1; j++) {
-            const auto& etC = labels.at<int>(i, j);
-            const auto& etR = labels.at<int>(i, j + 1);
-            const auto& etD = labels.at<int>(i + 1, j);
-
-            if (etC != etR || etC != etD) {
-                img.at<Vec3b>(i, j) = color;
-            }
-        }
-    }
+    // const Vec3b color = Vec3b(0, 255, 0);
+    // for (int i = 0; i < height - 1; i++) {
+    //     for (int j = 0; j < width - 1; j++) {
+    //         const auto& etC = labels.at<int>(i, j);
+    //         const auto& etR = labels.at<int>(i, j + 1);
+    //         const auto& etD = labels.at<int>(i + 1, j);
+    //
+    //         if (etC != etR || etC != etD) {
+    //             img.at<Vec3b>(i, j) = color;
+    //         }
+    //     }
+    // }
 }

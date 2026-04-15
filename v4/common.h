@@ -18,9 +18,9 @@ inline int height, width;
 inline constexpr std::array<int, 6> TILE_SIZES = {16, 32, 64, 128, 256, 512};
 inline const std::array<std::pair<std::string, int>, 4> IMAGES = {
     std::pair{std::string(PROJECT_SOURCE_DIR)+"/Images/COCO-1.jpg"    , 200},
-          {std::string(PROJECT_SOURCE_DIR)+"/Images/COCO-2.jpg"    , 200},
-          {std::string(PROJECT_SOURCE_DIR)+"/Images/1080p-test.jpg", 200},
-          {std::string(PROJECT_SOURCE_DIR)+"/Images/4k-test-2.png" , 1000},
+          {std::string(PROJECT_SOURCE_DIR)+"/Images/COCO-2.jpg"    , 300},
+          {std::string(PROJECT_SOURCE_DIR)+"/Images/1080p-test.jpg", 1000},
+          {std::string(PROJECT_SOURCE_DIR)+"/Images/4k-test-2.png" , 2000},
 };
 
 struct pixel {
@@ -143,9 +143,9 @@ struct logs {
  */
 std::vector<std::pair<int, int>> floodFillBFS(const Mat& labels, std::vector<bool>& visited, int x, int y);
 
-image_SoA run_sequential(const image_SoA& image_SoA, const int& k);
-image_SoA run_parallel(const image_SoA& image_SoA, const int& k);
-image_SoA run_tile(const image_SoA& image_SoA, const int& k, const int& tile_size);
+Mat run_sequential(const image_SoA& image_SoA, const int& k);
+Mat run_parallel(const image_SoA& image_SoA, const int& k);
+Mat run_tile(const image_SoA& image_SoA, const int& k, const int& tile_size);
 
 void applySegmentationColored(Mat& img, const Mat& labels, const pixels_SoA& centers);
 
