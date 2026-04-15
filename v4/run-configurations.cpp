@@ -39,7 +39,6 @@ int main(const int argc, char *argv[]) {
     }
 
     for (const auto& image : IMAGES) {
-        if (image.first != std::string(PROJECT_SOURCE_DIR)+"/Images/4k-test-2.png") continue;
         auto& image_path = image.first;
         auto& sp_count = image.second;
         const Mat img = imread(image_path, IMREAD_COLOR_BGR);
@@ -88,7 +87,6 @@ int main(const int argc, char *argv[]) {
         logs_saver(sequential_logs, image_path, "SEQUENTIAL", logs_path);
 
         for (int num_threads = 1; num_threads <= THREADS_COUNT; num_threads <<= 1) {
-            if (num_threads != 16) continue;
             std::cout << " ---- Running threads count: " << num_threads << " ----\n";
             omp_set_num_threads(num_threads);
 
@@ -119,39 +117,39 @@ int main(const int argc, char *argv[]) {
             std::cout << "FINISHED\n";
             logs_saver(parallel_logs, image_path, "PARALLEL", logs_path);
 
-            // std::cout << "---- Running tile version runs ----\n";
-            // for (auto tile_size : TILE_SIZES) {
-            //     if (img.rows * img.cols < tile_size * tile_size * num_threads) {
-            //         std::cout << " ----- SKIPPING TILE SIZE " << tile_size << " -----\n";
-            //         continue;
-            //     }
-            //     std::cout << "Running tile size " << tile_size << " warmups\n";
-            //     for (int i = 0; i < WARMUP_RUNS; i++) {
-            //         image_SoA = {base_img_SoA};
-            //         run_tile(image_SoA, sp_count, tile_size);
-            //     }
-            //     std::cout << "Running tile size " << tile_size << " runs\n";
-            //     logs tile_logs;
-            //     tile_logs.tile_size = tile_size;
-            //     tile_logs.thread_num = num_threads;
-            //     for (int i = 0; i < NUM_RUNS; i++) {
-            //         image_SoA = {base_img_SoA};
-            //         const clock_t cpu_start = clock();
-            //         const auto wall_start = std::chrono::high_resolution_clock::now();
-            //
-            //         run_tile(image_SoA, sp_count, tile_size);
-            //
-            //         const clock_t cpu_end = std::clock();
-            //         const auto wall_end = std::chrono::high_resolution_clock::now();
-            //         double wall_time = std::chrono::duration<double, std::milli>(wall_end - wall_start).count();
-            //         double cpu_time = std::chrono::duration<double, std::milli>(cpu_end - cpu_start).count();
-            //
-            //         tile_logs.add({wall_time, cpu_time}, i);
-            //     }
-            //     std::cout << "Finished tile size " << tile_size << " runs\n";
-            //     logs_saver(tile_logs, image_path, "TILE", logs_path);
-            // }
-            // std::cout << "Finished tile version runs\n";
+            std::cout << "---- Running tile version runs ----\n";
+            for (auto tile_size : TILE_SIZES) {
+                if (img.rows * img.cols < tile_size * tile_size * num_threads) {
+                    std::cout << " ----- SKIPPING TILE SIZE " << tile_size << " -----\n";
+                    continue;
+                }
+                std::cout << "Running tile size " << tile_size << " warmups\n";
+                for (int i = 0; i < WARMUP_RUNS; i++) {
+                    image_SoA = {base_img_SoA};
+                    run_tile(image_SoA, sp_count, tile_size);
+                }
+                std::cout << "Running tile size " << tile_size << " runs\n";
+                logs tile_logs;
+                tile_logs.tile_size = tile_size;
+                tile_logs.thread_num = num_threads;
+                for (int i = 0; i < NUM_RUNS; i++) {
+                    image_SoA = {base_img_SoA};
+                    const clock_t cpu_start = clock();
+                    const auto wall_start = std::chrono::high_resolution_clock::now();
+
+                    run_tile(image_SoA, sp_count, tile_size);
+
+                    const clock_t cpu_end = std::clock();
+                    const auto wall_end = std::chrono::high_resolution_clock::now();
+                    double wall_time = std::chrono::duration<double, std::milli>(wall_end - wall_start).count();
+                    double cpu_time = std::chrono::duration<double, std::milli>(cpu_end - cpu_start).count();
+
+                    tile_logs.add({wall_time, cpu_time}, i);
+                }
+                std::cout << "Finished tile size " << tile_size << " runs\n";
+                logs_saver(tile_logs, image_path, "TILE", logs_path);
+            }
+            std::cout << "Finished tile version runs\n";
         }
     }
 }

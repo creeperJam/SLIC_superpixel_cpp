@@ -22,11 +22,11 @@ image_SoA run_tile(const image_SoA& image_SoA, const int& k, const int& tile_siz
     }
     tileEnforceConnectivity(labels, real_k);
 
-    Mat output = image_SoA.to_Mat(height, width);
-    cvtColor(output, output, COLOR_Lab2BGR);
-    output.convertTo(output, CV_8UC3, 255.0);
-    applySegmentationColored(output, labels, clusters_centers);
-    imwrite(std::string(PROJECT_SOURCE_DIR) + "/output/tile/result_" + std::to_string(tile_size) + ".png", output);
+    // Mat output = image_SoA.to_Mat(height, width);
+    // cvtColor(output, output, COLOR_Lab2BGR);
+    // output.convertTo(output, CV_8UC3, 255.0);
+    // applySegmentationColored(output, labels, clusters_centers);
+    // imwrite(std::string(PROJECT_SOURCE_DIR) + "/output/tile/result_" + std::to_string(tile_size) + ".png", output);
 
     return image_SoA;
 }

@@ -6,7 +6,7 @@ int main() {
     omp_set_num_threads(omp_get_num_procs());
     std::cout << std::fixed << std::setprecision(4);
     for (auto& image : IMAGES) {
-        if (image.first != std::string(PROJECT_SOURCE_DIR)+"/Images/COCO-2.jpg") continue;
+        // if (image.first != std::string(PROJECT_SOURCE_DIR)+"/Images/COCO-2.jpg") continue;
         auto& image_path = image.first;
         auto& sp_count = image.second;
         const Mat img = imread(image_path, IMREAD_COLOR_BGR);

@@ -22,11 +22,11 @@ image_SoA run_sequential(const image_SoA& image_SoA, const int &k) {
     }
     enforceConnectivity(labels, real_k);
 
-    Mat output = image_SoA.to_Mat(height, width);
-    cvtColor(output, output, COLOR_Lab2BGR);
-    output.convertTo(output, CV_8UC3, 255.0);
-    applySegmentationColored(output, labels, clusters_centers);
-    imwrite(std::string(PROJECT_SOURCE_DIR) + "/output/sequenziale/result.png", output);
+    // Mat output = image_SoA.to_Mat(height, width);
+    // cvtColor(output, output, COLOR_Lab2BGR);
+    // output.convertTo(output, CV_8UC3, 255.0);
+    // applySegmentationColored(output, labels, clusters_centers);
+    // imwrite(std::string(PROJECT_SOURCE_DIR) + "/output/sequenziale/result.png", output);
     
     return image_SoA;
 }
